@@ -70,6 +70,10 @@ namespace JO {
             return *this;
         }
 
+        void clear() {
+            mSize = 0;
+        }
+
         T& operator[](size_t idx) const {
             return mData[idx];
         }
