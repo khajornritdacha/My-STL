@@ -9,6 +9,10 @@ namespace JO {
         size_t mSize;
         T* mData;
 
+        void rangeCheck(size_t idx) {
+            if (idx < 0 or idx >= mSize) throw std::range_error("Index out of range");
+        }
+
         void ensureCapacity(size_t desired_size) {
             if (mCap < desired_size) {
                 int new_mCap = desired_size > mCap*2 ? desired_size : mCap*2;
@@ -52,6 +56,11 @@ namespace JO {
             mSize += 1;
         }
 
+        void pop_back() {
+            if (mSize <= 0) throw std::runtime_error("Cannot pop_back because vector is empty");
+            mSize -= 1;
+        }
+
         Vector& operator=(Vector<T> const &other) {
             T* new_mData = new T[other.mCap];
             for (size_t i = 0; i < other.mSize; i++) new_mData[i] = other.mData[i];
@@ -65,6 +74,11 @@ namespace JO {
             return mData[idx];
         }
 
+        T& at(size_t idx) const {
+            rangeCheck(idx);
+            return mData[idx];
+        }
+
         size_t empty() const {
             return (mSize == 0);
         }
@@ -72,9 +86,9 @@ namespace JO {
             return mSize;
         }
 
-        // ~Vector() {
-        //     delete [] mData;
-        // }
+        ~Vector() {
+            delete [] mData;
+        }
     };
 }
 
