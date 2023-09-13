@@ -30,6 +30,8 @@ namespace JO {
         }
 
     public:
+        typedef *T iterator;
+
         /**
          * @brief Default constructor of a new Vector object
          * 
@@ -72,6 +74,14 @@ namespace JO {
 
         void clear() {
             mSize = 0;
+        }
+
+        iterator begin() const {
+            return mData;
+        }
+
+        iterator end() const {
+            return mData + mSize;
         }
 
         T& operator[](size_t idx) const {
