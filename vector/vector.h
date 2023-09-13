@@ -32,26 +32,49 @@ namespace JO {
          */
         Vector() : mCap(1), mSize(0), mData(new T[1]) {}
 
+        /**
+         * @brief Construct a new Vector object with only size specified
+         * Delegate constructor to another constructor
+         * @param sz size of the vector
+         */
+        Vector(size_t sz) : Vector(sz, T()) {}
+
+        Vector(size_t sz, T init_value) {
+            mCap = sz;
+            mSize = sz;
+            mData = new T[mCap];
+            for (size_t i = 0; i < mCap; i++) mData[i] = init_value;
+        }
+
         void push_back(T const &x) {
             ensureCapacity(mSize + 1);
             mData[size()] = x;
             mSize += 1;
         }
 
-        T& operator[](size_t idx) {
+        Vector& operator=(Vector<T> const &other) {
+            T* new_mData = new T[other.mCap];
+            for (size_t i = 0; i < other.mSize; i++) new_mData[i] = other.mData[i];
+            this->mCap = other.mCap;
+            this->mSize = other.mSize;
+            this->mData = new_mData;
+            return *this;
+        }
+
+        T& operator[](size_t idx) const {
             return mData[idx];
         }
 
-        size_t empty() {
+        size_t empty() const {
             return (mSize == 0);
         }
-        size_t size() {
+        size_t size() const {
             return mSize;
         }
 
-        ~Vector() {
-            delete [] mData;
-        }
+        // ~Vector() {
+        //     delete [] mData;
+        // }
     };
 }
 
